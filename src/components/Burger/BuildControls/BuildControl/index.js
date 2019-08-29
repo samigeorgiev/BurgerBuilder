@@ -5,7 +5,7 @@ import styles from './index.module.css';
 const buildControl = props => (
     <div className={styles.BuildControl}>
         <div className={styles.Label}>{props.label}</div>
-        <button className={styles.Less}>
+        <button className={styles.Less} onClick={props.clickLess} disabled={props.disabled}>
             Less
         </button>
         <button className={styles.More} onClick={props.clickMore}>
