@@ -10,11 +10,15 @@ const burger = props => {
         [...Array(props.ingredients[ingr])].map((_, index) => (
             <BurgerIngredient key={ingr + index} type={ingr} />
         ))
-    ));
+    )).reduce((arr, el) => (
+        arr.concat(el)
+    ), []);
     return (
         <div className={styles.Burger}>
             <BurgerIngredient type="bread-top" />
-            {ingredientElements}
+            {ingredientElements.length
+                ? ingredientElements
+                : <p>Start adding ingredients</p>}
             <BurgerIngredient type="bread-bottom" />
         </div>
     );
