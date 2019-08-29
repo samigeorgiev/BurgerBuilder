@@ -4,7 +4,7 @@ import BuildControl from './BuildControl';
 
 import styles from './index.module.css';
 
-const controls = [
+const CONTROLS = [
     { label: 'Salad', type: 'salad' },
     { label: 'Bacon', type: 'bacon' },
     { label: 'Meat', type: 'meat' },
@@ -13,8 +13,13 @@ const controls = [
 
 const buildControls = props => (
     <div className={styles.BuildControls}>
-        {controls.map(control => (
-            <BuildControl key={control.label} label={control.label} />
+        {CONTROLS.map(control => (
+            <BuildControl
+                key={control.label}
+                label={control.label}
+                clickMore={() => props.addIngredient(control.type)}
+                clickLess={() => props.removeIngredient(control.type)}
+            />
         ))}
     </div>
 );
