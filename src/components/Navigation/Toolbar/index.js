@@ -8,7 +8,9 @@ import styles from './index.module.css';
 const toolbar = props => (
     <header className={styles.Toolbar}>
         <div>MENU</div>
-        <Logo />
+        <div className={styles.Logo}>
+            <Logo />
+        </div>
         <nav>
             <NavigationItems />
         </nav>
