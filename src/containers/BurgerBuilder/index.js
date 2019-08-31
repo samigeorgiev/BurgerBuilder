@@ -7,7 +7,7 @@ import Modal from 'components/UI/Modal';
 import OrderSummary from 'components/Burger/OrderSummary';
 import Spinner from 'components/UI/Spinner';
 
-import axios from 'axiosOrders';
+import axios from 'axiosBurger';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -19,17 +19,24 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component {
 
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0
-        },
+        ingredients: null,
         purchasable: false,
         totalPrice: 4,
         showModal: false,
-        loading: false
+        loading: false,
+        error: false
     }
+
+    componentDidMount() {
+        axios.get('/ingredients.json')
+            .then(res => {
+                this.setState({ingredients: res.data});
+            })
+            .catch(err => {
+                this.setState({error: true});
+            });
+    }
+    
 
     updatePurchasable(ingredients) {
         const sum = Object.keys(ingredients).map(key => (
@@ -101,43 +108,57 @@ class BurgerBuilder extends Component {
     }
 
     render() {
-        const disabledButtons = {
-            ...this.state.ingredients
-        };
-        // eslint-disable-next-line
-        for (let key in disabledButtons) {
-            disabledButtons[key] = disabledButtons[key] === 0;
-        }
 
+        let burger = <Spinner />;
         let modalContent = null;
-        if (this.state.loading) {
-            modalContent = <Spinner />;
-        } else {
-            modalContent = (
-                <OrderSummary
-                    ingredients={this.state.ingredients}
-                    price={this.state.totalPrice}
-                    cancel={this.modalHandler}
-                    continue={this.purchaseContinue}
-                />
+        let disabledButtons = null;
+
+        if (this.state.ingredients) {
+            disabledButtons = {
+                ...this.state.ingredients
+            };
+            // eslint-disable-next-line
+            for (let key in disabledButtons) {
+                disabledButtons[key] = disabledButtons[key] === 0;
+            }
+
+            burger = (
+                <>
+                    <Burger ingredients={this.state.ingredients} />
+                    <BuildControls
+                        addIngredient={this.addIngredientHandler}
+                        removeIngredient={this.removeIngredientHandler}
+                        disabledButtons={disabledButtons}
+                        purchasable={this.state.purchasable}
+                        ordering={this.modalHandler}
+                        price={this.state.totalPrice}
+                    />
+                </>
             );
+    
+            if (this.state.loading) {
+                modalContent = <Spinner />;
+            } else {
+                modalContent = (
+                    <OrderSummary
+                        ingredients={this.state.ingredients}
+                        price={this.state.totalPrice}
+                        cancel={this.modalHandler}
+                        continue={this.purchaseContinue}
+                    />
+                );
+            }
         }
 
         return (
-            <>
-                <Modal show={this.state.showModal} close={this.modalHandler}>
-                    {modalContent}
-                </Modal>
-                <Burger ingredients={this.state.ingredients} />
-                <BuildControls
-                    addIngredient={this.addIngredientHandler}
-                    removeIngredient={this.removeIngredientHandler}
-                    disabledButtons={disabledButtons}
-                    purchasable={this.state.purchasable}
-                    ordering={this.modalHandler}
-                    price={this.state.totalPrice}
-                />
-            </>
+            !this.state.error
+                ? <>
+                    <Modal show={this.state.showModal} close={this.modalHandler}>
+                        {modalContent}
+                    </Modal>
+                    {burger}
+                </>
+                : <h1>Ingredients can't be loaded!</h1>
         );
     }
 }
