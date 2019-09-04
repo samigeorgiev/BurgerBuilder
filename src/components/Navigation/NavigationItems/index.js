@@ -6,11 +6,11 @@ import styles from './index.module.css';
 
 const navigationItems = props => (
     <ul className={styles.NavigationItems}>
-        <NavigationItem link='/' active>
+        <NavigationItem link='/'>
             BurgerBuilder
         </NavigationItem>
-        <NavigationItem link='/'>
-            Checkout
+        <NavigationItem link='/orders'>
+            Orders
         </NavigationItem>
     </ul>
 );
