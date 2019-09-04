@@ -80,31 +80,32 @@ class BurgerBuilder extends Component {
         this.setState({showModal: !this.state.showModal});
     }
 
-    purchaseContinue = () => {
-        this.setState({loading: true});
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'Samuil Georgiev',
-                city: 'Sofia',
-                phone: '0877777777'
-            },
-            deliveryMethod: 'fastest'
-        };
-        axios.post('/orders.json', order)
-            .then(res => {
-                this.setState({
-                    loading: false,
-                    showModal: false
-                });
-            })
-            .catch(err => {
-                this.setState({
-                    loading: false,
-                    showModal: false
-                });
-            });
+    purchaseContinueHandler = () => {
+        this.props.history.push('/checkout');
+        // this.setState({loading: true});
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     customer: {
+        //         name: 'Samuil Georgiev',
+        //         city: 'Sofia',
+        //         phone: '0877777777'
+        //     },
+        //     deliveryMethod: 'fastest'
+        // };
+        // axios.post('/orders.json', order)
+        //     .then(res => {
+        //         this.setState({
+        //             loading: false,
+        //             showModal: false
+        //         });
+        //     })
+        //     .catch(err => {
+        //         this.setState({
+        //             loading: false,
+        //             showModal: false
+        //         });
+        //     });
     }
 
     render() {
@@ -144,7 +145,7 @@ class BurgerBuilder extends Component {
                         ingredients={this.state.ingredients}
                         price={this.state.totalPrice}
                         cancel={this.modalHandler}
-                        continue={this.purchaseContinue}
+                        continue={this.purchaseContinueHandler}
                     />
                 );
             }
