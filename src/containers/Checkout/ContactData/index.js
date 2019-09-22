@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Input from 'components/UI/Input';
 import Button from 'components/UI/Button';
@@ -113,4 +114,11 @@ class ContactData extends Component {
     }
 }
 
-export default withRouter(ContactData);
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+        price: state.price
+    };
+};
+
+export default connect(mapStateToProps)(withRouter(ContactData));
