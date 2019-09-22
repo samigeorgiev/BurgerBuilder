@@ -105,7 +105,6 @@ class BurgerBuilder extends Component {
             disabledButtons = {
                 ...this.state.ingredients
             };
-            // eslint-disable-next-line
             for (let key in disabledButtons) {
                 disabledButtons[key] = disabledButtons[key] === 0;
             }
