@@ -9,54 +9,80 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ORDER_INIT:
-            return {
-                ...state,
-                ordered: false,
-                error: false
-            }
+        case actionTypes.ORDER_INIT: return orderInit(state, action);
         case actionTypes.ORDER_BURGER_STARTED:
-            return {
-                ...state,
-                loading: true
-            };
+            return orderBurgerStarted(state, action);
         case actionTypes.ORDER_BURGER_SUCCEDED:
-            const newOrder = {
-                ...action.orderData,
-                id: action.id
-            };
-            return {
-                ...state,
-                loading: false,
-                ordered: true,
-                orders: state.orders.concat(newOrder)
-            };
+            return orderBurgerSucceeded(state, action);
         case actionTypes.ORDER_BURGER_FAILED:
-            return {
-                ...state,
-                error: true
-            };
+            return orderBurgerFailed(state, action);
         case actionTypes.FETCH_ORDERS_STARTED:
-            return {
-                ...state,
-                loading: true,
-                error: false
-            };
+            return fetchOrdersStarted(state, action);
         case actionTypes.FETCH_ORDERS_SUCCEEDED:
-            return {
-                ...state,
-                orders: action.orders,
-                loading: false
-            };
+            return fetchOrdersSucceeded(state, action);
         case actionTypes.FETCH_ORDERS_FAILED:
-            return {
-                ...state,
-                loading: false,
-                error: true
-            };
-        default:
-            return state;
+            return fetchOrdersFailed(state, action);
+        default: return state;
     }
+};
+
+const orderInit = (state, action) => {
+    return {
+        ...state,
+        ordered: false,
+        error: false
+    };
+};
+
+const orderBurgerStarted = (state, action) => {
+    return {
+        ...state,
+        loading: true
+    };
+};
+
+const orderBurgerSucceeded = (state, action) => {
+    const newOrder = {
+        ...action.orderData,
+        id: action.id
+    };
+    return {
+        ...state,
+        loading: false,
+        ordered: true,
+        orders: state.orders.concat(newOrder)
+    };
+};
+
+const orderBurgerFailed = (state, action) => {
+    return {
+        ...state,
+        error: true
+    };
+};
+
+const fetchOrdersStarted = (state, action) => {
+    return {
+        ...state,
+        loading: true,
+        error: false
+    };
+};
+
+const fetchOrdersSucceeded = (state, action) => {
+    return {
+        ...state,
+        orders: action.orders,
+        loading: false
+    };
+};
+
+const fetchOrdersFailed = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        error: true
+    };
 };
 
 export default reducer;

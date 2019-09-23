@@ -15,39 +15,52 @@ const INGREDIENT_PRICES = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ADD_INGREDIENT:
-            return {
-                ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.ingredient]: state.ingredients[action.ingredient] + 1
-                },
-                price: state.price + INGREDIENT_PRICES[action.ingredient]
-            };
+        case actionTypes.ADD_INGREDIENT: return addIngredient(state, action);
         case actionTypes.REMOVE_INGREDIENT:
-            return {
-                ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.ingredient]: state.ingredients[action.ingredient] - 1
-                },
-                price: state.price - INGREDIENT_PRICES[action.ingredient]
-            };
-        case actionTypes.SET_INGREDIENTS:
-            return {
-                ...state,
-                ingredients: action.ingredients,
-                price: 4,
-                error: false
-            };
+            return removeIngredient(state, action);
+        case actionTypes.SET_INGREDIENTS: return setIngredients(state, action);
         case actionTypes.SET_INGREDIENTS_FAILED:
-            return {
-                ...state,
-                error: true
-            };
-        default:
-            return state;
+            return setIngredientsFailed(state, action);
+        default: return state;
     }
+};
+
+const addIngredient = (state, action) => {
+    return {
+        ...state,
+        ingredients: {
+            ...state.ingredients,
+            [action.ingredient]: state.ingredients[action.ingredient] + 1
+        },
+        price: state.price + INGREDIENT_PRICES[action.ingredient]
+    };
+};
+
+const removeIngredient = (state, action) => {
+    return {
+        ...state,
+        ingredients: {
+            ...state.ingredients,
+            [action.ingredient]: state.ingredients[action.ingredient] - 1
+        },
+        price: state.price - INGREDIENT_PRICES[action.ingredient]
+    };
+};
+
+const setIngredients = (state, action) => {
+    return {
+        ...state,
+        ingredients: action.ingredients,
+        price: 4,
+        error: false
+    };
+};
+
+const setIngredientsFailed = (state, action) => {
+    return {
+        ...state,
+        error: true
+    };
 };
 
 export default reducer;
