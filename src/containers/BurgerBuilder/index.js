@@ -9,27 +9,18 @@ import OrderSummary from 'components/Burger/OrderSummary';
 import Spinner from 'components/UI/Spinner';
 
 import axios from 'axiosBurger';
-import * as actionTypes from 'store/actionTypes';
+import * as actions from 'store/actions';
 
 class BurgerBuilder extends Component {
 
     state = {
-        purchasable: false,
-        showModal: false,
-        loading: false,
-        error: false
+        showModal: false
     }
 
     componentDidMount() {
-        // axios.get('/ingredients.json')
-        //     .then(res => {
-        //         this.setState({ingredients: res.data});
-        //     })
-        //     .catch(err => {
-        //         this.setState({error: true});
-        //     });
+        this.props.onFetchIngredients();
     }
-    
+
 
     isPurchasable(ingredients) {
         const sum = Object.keys(ingredients).map(key => (
@@ -41,10 +32,11 @@ class BurgerBuilder extends Component {
     }
 
     modalHandler = () => {
-        this.setState({showModal: !this.state.showModal});
+        this.setState({ showModal: !this.state.showModal });
     }
 
     purchaseContinueHandler = () => {
+        this.props.onOrderInit();
         this.props.history.push('/checkout');
     }
 
@@ -69,31 +61,33 @@ class BurgerBuilder extends Component {
                         addIngredient={this.props.onIngredientAdd}
                         removeIngredient={this.props.onIngredientRemove}
                         disabledButtons={disabledButtons}
-                        purchasable={this.isPurchasable(this.props.ingredients)}
+                        purchasable={
+                            this.isPurchasable(this.props.ingredients)
+                        }
                         ordering={this.modalHandler}
                         price={this.props.price}
                     />
                 </>
             );
-    
-            if (this.state.loading) {
-                modalContent = <Spinner />;
-            } else {
-                modalContent = (
-                    <OrderSummary
-                        ingredients={this.props.ingredients}
-                        price={this.props.price}
-                        cancel={this.modalHandler}
-                        continue={this.purchaseContinueHandler}
-                    />
-                );
-            }
+
+            modalContent = (
+                <OrderSummary
+                    ingredients={this.props.ingredients}
+                    price={this.props.price}
+                    cancel={this.modalHandler}
+                    continue={this.purchaseContinueHandler}
+                />
+            );
+
         }
 
         return (
-            !this.state.error
+            !this.props.error
                 ? <>
-                    <Modal show={this.state.showModal} close={this.modalHandler}>
+                    <Modal
+                        show={this.state.showModal}
+                        close={this.modalHandler}
+                    >
                         {modalContent}
                     </Modal>
                     {burger}
@@ -105,20 +99,25 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
-        price: state.price
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.price,
+        error: state.burgerBuilder.error
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdd: ingredient => (
-            dispatch({type: actionTypes.ADD_INGREDIENT, ingredient: ingredient})
+            dispatch(actions.addIngredient(ingredient))
         ),
         onIngredientRemove: ingredient => (
-            dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredient: ingredient})
-        )
+            dispatch(actions.removeIngredient(ingredient))
+        ),
+        onFetchIngredients: () => dispatch(actions.fetchIngredients()),
+        onOrderInit: () => dispatch(actions.orderInit())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(
+    withErrorHandler(BurgerBuilder, axios)
+);
