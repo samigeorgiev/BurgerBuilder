@@ -9,3 +9,7 @@ export {
     orderInit,
     fecthOrders
 } from './order';
+
+export {
+    auth
+} from './auth';
