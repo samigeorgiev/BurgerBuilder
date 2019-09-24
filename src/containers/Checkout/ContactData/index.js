@@ -47,7 +47,6 @@ class ContactData extends Component {
         updatedElement.isValid = this.checkValidity(updatedElement.value, updatedElement.validation);
         updatedElement.isTouched = true;
         updatedOrderForm[inputIdentifier] = updatedElement;
-        console.log(updatedElement);
         let formIsValid = true;
         for (let inputElement in updatedOrderForm) {
             formIsValid = updatedOrderForm[inputElement].isValid && formIsValid;
@@ -74,7 +73,6 @@ class ContactData extends Component {
                 config: this.state.orderForm[key]
             });
         }
-        console.log(formElements);
         let form = <Spinner />;
         if (!this.props.loading) {
             form = (
