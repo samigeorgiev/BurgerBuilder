@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Backdrop from '../Backdrop';
 
 import styles from './index.module.css';
 
 class Modal extends Component {
-
     shouldComponentUpdate(nextProps, nextState) {
         return this.props.show !== nextProps.show || this.props.children !== nextProps.children;
     }
@@ -27,5 +27,10 @@ class Modal extends Component {
         );
     }
 }
+
+Modal.propTypes = {
+    show: PropTypes.bool.isRequired,
+    close: PropTypes.func.isRequired
+};
 
 export default Modal;

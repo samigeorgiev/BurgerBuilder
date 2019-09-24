@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './index.module.css';
 
-const spinner = props => (
+const spinner = () => (
     <div className={styles.Loader}>Loading...</div>
 );
 

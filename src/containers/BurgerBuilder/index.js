@@ -33,7 +33,9 @@ class BurgerBuilder extends Component {
 
     orderHandler = () => {
         if (this.props.isAuth) {
-            this.setState({ showModal: !this.state.showModal });
+            this.setState(prevState => {
+                return { showModal: !prevState.showModal };
+            });
         } else {
             this.props.onAuthSetRedirectPath('/checkout');
             this.props.history.push('/auth');
@@ -92,7 +94,7 @@ class BurgerBuilder extends Component {
                 ? <>
                     <Modal
                         show={this.state.showModal}
-                        close={this.modalHandler}
+                        close={this.orderHandler}
                     >
                         {modalContent}
                     </Modal>
