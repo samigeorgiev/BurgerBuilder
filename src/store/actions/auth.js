@@ -16,9 +16,15 @@ export const auth = (email, password, isSignup) => {
         }
         axios.post(url, authData)
             .then(res => {
-                console.log(res);
-                dispatch(authSucceeded(res.data.idToken, res.data.localId));
-                dispatch(checkAuthTimeout(res.data.expiresIn));
+                const token = res.data.idToken;
+                const userId = res.data.localId;
+                const expTime = res.data.expiresIn * 1000;
+                const expDate = new Date(new Date().getTime() + expTime);
+                localStorage.setItem('token', token);
+                localStorage.setItem('userId', userId);
+                localStorage.setItem('expDate', expDate);
+                dispatch(authSucceeded(token, userId));
+                dispatch(checkAuthTimeout(expTime));
             })
             .catch(err => {
                 console.log(err);
@@ -26,6 +32,38 @@ export const auth = (email, password, isSignup) => {
             })
     };
 };
+
+export const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('expDate');
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    };
+};
+
+export const authSetRedirectPath = path => {
+    return {
+        type: actionTypes.AUTH_SET_REDIRECT_PATH,
+        path: path
+    };
+};
+
+export const authCheckState = () => {
+    return dispatch => {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        const expDate = new Date(localStorage.getItem('expDate'));
+        if (!token || !userId || expDate <= new Date()) {
+            dispatch(logout());
+        } else {
+            dispatch(authSucceeded(token, userId));
+            dispatch(
+                checkAuthTimeout(expDate.getTime() - new Date().getTime())
+            );
+        }
+    }
+}
 
 const authStarted = () => {
     return {
@@ -52,12 +90,6 @@ const checkAuthTimeout = expTime => {
     return dispatch => {
         setTimeout(() =>{
             dispatch(logout());
-        }, expTime * 1000);
-    };
-};
-
-const logout = () => {
-    return {
-        type: actionTypes.AUTH_LOGOUT
+        }, expTime);
     };
 };
