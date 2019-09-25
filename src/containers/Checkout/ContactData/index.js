@@ -24,8 +24,9 @@ class ContactData extends Component {
     orderHandler = event => {
         event.preventDefault();
         const formData = {};
-        for (let elIdentifier in this.state.orderForm) {
-            formData[elIdentifier] = this.state.orderForm[elIdentifier].value;
+        // eslint-disable-next-line
+        for (let elementKey in this.state.orderForm) {
+            formData[elementKey] = this.state.orderForm[elementKey].value;
         }
         const order = {
             ingredients: this.props.ingredients,
@@ -48,6 +49,7 @@ class ContactData extends Component {
         updatedElement.isTouched = true;
         updatedOrderForm[inputIdentifier] = updatedElement;
         let formIsValid = true;
+        // eslint-disable-next-line
         for (let inputElement in updatedOrderForm) {
             formIsValid = updatedOrderForm[inputElement].isValid && formIsValid;
         }
@@ -67,6 +69,7 @@ class ContactData extends Component {
 
     render() {
         const formElements = [];
+        // eslint-disable-next-line
         for (let key in this.state.orderForm) {
             formElements.push({
                 id: key,

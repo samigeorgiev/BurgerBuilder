@@ -10,10 +10,12 @@ export const auth = (email, password, isSignup) => {
             password: password,
             returnSecureToken: true
         };
-        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC8QYaFqRFGXaQowXkU4ruETVwbfwEcVdc';
+        let url = process.env.REACT_APP_SIGNUP;
         if (!isSignup) {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC8QYaFqRFGXaQowXkU4ruETVwbfwEcVdc';
+            url = process.env.REACT_APP_SIGNIN;
         }
+        url += '?key=' + process.env.REACT_APP_FIREBASE_API_KEY;
+
         axios.post(url, authData)
             .then(res => {
                 const token = res.data.idToken;

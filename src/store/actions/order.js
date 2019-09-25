@@ -27,6 +27,7 @@ export const fecthOrders = (token, userId) => {
         axios.get('/orders.json' + query)
             .then(res => {
                 const orders = [];
+                // eslint-disable-next-line
                 for (let key in res.data) {
                     orders.push({
                         ...res.data[key],

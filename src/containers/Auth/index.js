@@ -68,6 +68,7 @@ class Auth extends Component {
 
     render() {
         const formElements = [];
+        // eslint-disable-next-line
         for (let key in this.state.authForm) {
             formElements.push({
                 id: key,

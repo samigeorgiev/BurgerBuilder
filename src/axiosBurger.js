@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const inst = axios.create({
-    baseURL: 'https://burgerbuilder-f0b3c.firebaseio.com/'
+    baseURL: process.env.REACT_APP_DATABASE
 });
 
 export default inst;
