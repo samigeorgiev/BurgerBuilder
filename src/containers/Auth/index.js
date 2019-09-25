@@ -86,6 +86,7 @@ class Auth extends Component {
                 />
             ));
         }
+
         let errorMessage = null;
         if (this.props.error) {
             errorMessage = (
@@ -100,6 +101,7 @@ class Auth extends Component {
 
         return (
             <div className={styles.Auth}>
+                <p>{this.state.isSignup ? "SIGN UP" : "SIGN IN"}</p>
                 {redirect}
                 {errorMessage}
                 <form onSubmit={this.authHandler}>
