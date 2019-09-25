@@ -4,12 +4,16 @@ import styles from './index.module.css';
 
 const order = props => {
     const ingredients = [];
-    for (let ingr in props.ingredients) {
-        ingredients.push({name: ingr, amount: props.ingredients[ingr]});
+    for (let ingredientName in props.ingredients) {
+        ingredients.push({
+            name: ingredientName,
+            amount: props.ingredients[ingredientName]
+        });
     }
-    const ingredientElements =  ingredients.map(ingr => (
+
+    const ingredientElements =  ingredients.map(ingredient => (
         <span
-            key={ingr.name}
+            key={ingredient.name}
             style={{
                 textTransform: 'capitalize',
                 display: 'inline-block',
@@ -18,15 +22,16 @@ const order = props => {
                 padding: '5px'
             }}
         >
-            {ingr.name}({ingr.amount})
+            {ingredient.name}({ingredient.amount})
         </span>
     ));
+
     return (
         <div className={styles.Order}>
             <p>Ingredients: {ingredientElements}</p>
             <p>Price: <strong>{props.price.toFixed(2)}</strong></p>
         </div>
     );
-}
+};
 
 export default order;

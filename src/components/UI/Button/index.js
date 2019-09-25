@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './index.module.css';
 
@@ -11,5 +12,10 @@ const button = props => (
         {props.children}
     </button>
 );
+
+button.propTypes = {
+    click: PropTypes.func,
+    type: PropTypes.oneOf(['Success', 'Danger']) 
+};
 
 export default button;

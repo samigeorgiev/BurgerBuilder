@@ -61,6 +61,7 @@ export const orderForm = {
         },
         value: 'fastest',
         validation: {},
-        isValid: true
+        isValid: true,
+        isTouched: false
     },
 };

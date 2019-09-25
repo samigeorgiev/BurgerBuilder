@@ -80,7 +80,7 @@ class Auth extends Component {
             form = formElements.map(el => (
                 <Input
                     key={el.id}
-                    name={el.id}
+                    valueType={el.id}
                     change={(event) => this.inputHandler(event, el.id)}
                     {...el.config}
                 />
