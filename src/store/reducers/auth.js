@@ -10,13 +10,18 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.AUTH_STARTED: return authStarted(state, action);
-        case actionTypes.AUTH_SUCCEEDED: return authSucceeded(state, action);
-        case actionTypes.AUTH_FAILED: return authFailed(state, action);
-        case actionTypes.AUTH_LOGOUT: return authLogout(state, action);
+        case actionTypes.AUTH_STARTED:
+            return authStarted(state, action);
+        case actionTypes.AUTH_SUCCEEDED:
+            return authSucceeded(state, action);
+        case actionTypes.AUTH_FAILED:
+            return authFailed(state, action);
+        case actionTypes.AUTH_LOGOUT:
+            return authLogout(state, action);
         case actionTypes.AUTH_SET_REDIRECT_PATH:
             return authSetRedirectPath(state, action);
-        default: return state;
+        default:
+            return state;
     }
 };
 

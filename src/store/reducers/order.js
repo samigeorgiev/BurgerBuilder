@@ -9,24 +9,26 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ORDER_INIT: return orderInit(state, action);
-        case actionTypes.ORDER_BURGER_STARTED:
-            return orderBurgerStarted(state, action);
-        case actionTypes.ORDER_BURGER_SUCCEDED:
-            return orderBurgerSucceeded(state, action);
-        case actionTypes.ORDER_BURGER_FAILED:
-            return orderBurgerFailed(state, action);
-        case actionTypes.FETCH_ORDERS_STARTED:
-            return fetchOrdersStarted(state, action);
+        case actionTypes.INIT_ORDER:
+            return initOrder(state, action);
+        case actionTypes.START_ORDER:
+            return startOrder(state, action);
+        case actionTypes.ORDER_SUCCEEDED:
+            return orderSucceeded(state, action);
+        case actionTypes.ORDER_FAILED:
+            return orderFailed(state, action);
+        case actionTypes.START_FETCHING_ORDERS:
+            return startFetchingOrders(state, action);
         case actionTypes.FETCH_ORDERS_SUCCEEDED:
             return fetchOrdersSucceeded(state, action);
         case actionTypes.FETCH_ORDERS_FAILED:
             return fetchOrdersFailed(state, action);
-        default: return state;
+        default:
+            return state;
     }
 };
 
-const orderInit = (state, action) => {
+const initOrder = (state, action) => {
     return {
         ...state,
         ordered: false,
@@ -34,14 +36,14 @@ const orderInit = (state, action) => {
     };
 };
 
-const orderBurgerStarted = (state, action) => {
+const startOrder = (state, action) => {
     return {
         ...state,
         loading: true
     };
 };
 
-const orderBurgerSucceeded = (state, action) => {
+const orderSucceeded = (state, action) => {
     const newOrder = {
         ...action.orderData,
         id: action.id
@@ -54,14 +56,14 @@ const orderBurgerSucceeded = (state, action) => {
     };
 };
 
-const orderBurgerFailed = (state, action) => {
+const orderFailed = (state, action) => {
     return {
         ...state,
         error: true
     };
 };
 
-const fetchOrdersStarted = (state, action) => {
+const startFetchingOrders = (state, action) => {
     return {
         ...state,
         loading: true,

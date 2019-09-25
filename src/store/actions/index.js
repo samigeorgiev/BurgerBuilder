@@ -6,7 +6,7 @@ export {
 
 export {
     orderBurger,
-    orderInit,
+    initOrder,
     fecthOrders
 } from './order';
 

@@ -3,26 +3,26 @@ import axios from 'axiosBurger';
 
 export const orderBurger = (orderData, token) => {
     return dispatch => {
-        dispatch(orderBurgerStarted());
+        dispatch(startOrder());
         axios.post('/orders.json?auth=' + token, orderData)
             .then(res => {
-                dispatch(orderBurgerSucceeded(res.data.name, orderData));
+                dispatch(orderSucceeded(res.data.name, orderData));
             })
             .catch(err => {
-                dispatch(orderBurgerFailed(err));
+                dispatch(orderFailed(err));
             });
     };
 };
 
-export const orderInit = () => {
+export const initOrder = () => {
     return {
-        type: actionTypes.ORDER_INIT
+        type: actionTypes.INIT_ORDER
     };
 };
 
 export const fecthOrders = (token, userId) => {
     return dispatch => {
-        dispatch(fetchOrdersStarted());
+        dispatch(startFetchingOrders());
         const query = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
         axios.get('/orders.json' + query)
             .then(res => {
@@ -41,29 +41,29 @@ export const fecthOrders = (token, userId) => {
     }
 }
 
-const orderBurgerStarted = () => {
+const startOrder = () => {
     return {
-        type: actionTypes.ORDER_BURGER_STARTED
+        type: actionTypes.START_ORDER
     }
 };
 
-const orderBurgerSucceeded = (id, orderData) => {
+const orderSucceeded = (id, orderData) => {
     return {
-        type: actionTypes.ORDER_BURGER_SUCCEDED,
+        type: actionTypes.ORDER_SUCCEEDED,
         id: id,
         orderData: orderData
     };
 };
 
-const orderBurgerFailed = error => {
+const orderFailed = error => {
     return {
-        type: actionTypes.ORDER_BURGER_FAILED
+        type: actionTypes.ORDER_FAILED
     };
 };
 
-const fetchOrdersStarted = () => {
+const startFetchingOrders = () => {
     return {
-        type: actionTypes.FETCH_ORDERS_STARTED
+        type: actionTypes.START_FETCHING_ORDERS
     };
 };
 
