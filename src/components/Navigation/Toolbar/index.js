@@ -1,8 +1,8 @@
 import React from 'react';
 
-import NavigationItems from '../NavigationItems';
 import DrawerToggle from '../SideDrawer/DrawerToggle';
 import Logo from 'components/Logo';
+import NavigationItems from '../NavigationItems';
 
 import styles from './index.module.css';
 

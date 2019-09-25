@@ -6,10 +6,10 @@ import Spinner from 'components/UI/Spinner';
 import withErrorHandler from 'hoc/withErrorHandler';
 
 import axios from 'axiosBurger';
+
 import * as actions from 'store/actions';
 
 class Orders extends Component {
-
     componentDidMount() {
         this.props.onFetchOrders(this.props.token, this.props.userId);
     }
@@ -24,8 +24,8 @@ class Orders extends Component {
                     price={+order.price}
                 />
             ));
-
         }
+
         return (
             <div>
                 {orders}
@@ -45,7 +45,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOrders: (token, userId) => dispatch(actions.fecthOrders(token, userId))
+        onFetchOrders: (token, userId) => (
+            dispatch(actions.fecthOrders(token, userId))
+        )
     };
 };
 

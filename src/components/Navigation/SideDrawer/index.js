@@ -1,8 +1,8 @@
 import React from 'react';
 
-import NavigationItems from '../NavigationItems';
 import Backdrop from 'components/UI/Backdrop';
 import Logo from 'components/Logo';
+import NavigationItems from '../NavigationItems';
 
 import styles from './index.module.css';
 
@@ -13,6 +13,7 @@ const sideDrawer = props => {
     } else {
         classes.push(styles.Close);
     }
+    
     return (
         <>
             <Backdrop show={props.show} click={props.close} />

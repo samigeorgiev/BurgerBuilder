@@ -4,6 +4,7 @@ import BuildControl from './BuildControl';
 
 import styles from './index.module.css';
 
+// TO CHECK
 const CONTROLS = [
     { label: 'Salad', type: 'salad' },
     { label: 'Bacon', type: 'bacon' },

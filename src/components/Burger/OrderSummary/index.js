@@ -3,11 +3,15 @@ import React from 'react';
 import Button from 'components/UI/Button';
 
 const orderSummary = props => {
-    const ingredientSummary = Object.keys(props.ingredients).map(ingr => (
-        <li key={ingr}>
-            <span style={{textTransform: "capitalize"}}>{ingr}</span>: {props.ingredients[ingr]}
+    const ingredientSummary = Object.keys(props.ingredients).map(ingredient => (
+        <li key={ingredient}>
+            <span style={{textTransform: "capitalize"}}>
+                {ingredient}
+            </span>
+            {": " + props.ingredients[ingredient]}
         </li>
     ));
+
     return (
         <>
             <h3>Your order</h3>
